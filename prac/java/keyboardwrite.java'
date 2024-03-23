@@ -1,0 +1,36 @@
+import java.io.*;
+
+public class KeyboardToFileExample {
+    public static void main(String[] args) {
+        String fileName = "A.txt";
+        
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+             BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
+            System.out.println("Enter text to write to file (type 'exit' to end):");
+            String line;
+            while (!(line = reader.readLine()).equalsIgnoreCase("exit")) {
+                writer.write(line);
+                writer.newLine(); // Add newline character after each line
+            }
+            System.out.println("Text has been written to file.");
+        } catch (IOException e) {
+            System.out.println("Error occurred: " + e.getMessage());
+            e.printStackTrace();
+        }
+        // Display the contents of the file
+        displayFileContents(fileName);
+    }
+
+    private static void displayFileContents(String fileName) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
+            System.out.println("\nContents of " + fileName + ":");
+            String line;
+            while ((line = reader.readLine()) != null) {
+                System.out.println(line);
+            }
+        } catch (IOException e) {
+            System.out.println("Error occurred while reading the file: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+}
